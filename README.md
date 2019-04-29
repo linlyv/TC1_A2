@@ -31,6 +31,8 @@
 
 在网页上输入要连接的WiFi SSID和密码,保存等待重启完成，模块就会自动连接你刚刚设置的WiFi网络。
 
+<img src="https://github.com/linlyv/TC1_A2/blob/master/doc/web.png" width="540">
+
 ### 4.app控制
 使用A1版的APP，发现局域网设备的方式添加设备[SmartControl_Android_MQTT](https://github.com/a2633063/SmartControl_Android_MQTT)。
 
