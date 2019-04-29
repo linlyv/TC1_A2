@@ -12,7 +12,7 @@
 
 通过串口工具连接到电脑，打开secureCRT软件，设置参数230400,8,none,1 ，连接上模块。
 
-<img src="https://github.com/linlyv/TC1_A2/blob/master/doc/lpt230.jpg" >
+<img src="https://github.com/linlyv/TC1_A2/blob/master/doc/lpt230.jpg" width="540" >
 >                       要接线的点（用到的点）
 
 
