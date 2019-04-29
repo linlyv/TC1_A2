@@ -43,7 +43,7 @@
 
 串口升级和web网页升级
 
-只需要访问模块的ip地址+iweb.html,就可以打开升级页面，选择第一项Upgrade application，浏览文件选择“XXX_upgrade.bin”文件，点击Upload
+只需要访问模块的ip地址+iweb.html(例如：http://192.168.123.184/iweb.html),就可以打开升级页面，选择第一项Upgrade application，浏览文件选择“XXX_upgrade.bin”文件，点击Upload
 即可，传输成功会返回：Update successful !
 
 
