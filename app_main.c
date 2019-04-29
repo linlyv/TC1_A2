@@ -245,7 +245,7 @@ static int sys_event_callback( uint32_t event_id,void * param)
 	return 0;
 }
 
-/*static int USER_FUNC socketa_recv_callback(uint32_t event,char *data,uint32_t len,uint32_t buf_len)
+static int USER_FUNC socketa_recv_callback(uint32_t event,char *data,uint32_t len,uint32_t buf_len)
 {
 	if(event==HFNET_SOCKETA_DATA_READY)
 
@@ -274,7 +274,7 @@ static int USER_FUNC socketb_recv_callback(uint32_t event,char *data,uint32_t le
 			
 	return len;
 }
-*/
+
 static int USER_FUNC uart_recv_callback(uint32_t event,char *data,uint32_t len,uint32_t buf_len)
 {
 	HF_Debug(DEBUG_LEVEL_LOW,"[%d]uart recv %d bytes data %d\n",event,len,buf_len);
@@ -332,8 +332,8 @@ static void show_reset_reason(void)
 ///关闭WPS,减少35k固件大小
 int hfwifi_wps_main(void){return 0;}
 
-void hfnet_register_socketa_atcmd(void){}
-void hfnet_register_socketb_atcmd(void){}
+//void hfnet_register_socketa_atcmd(void){}
+//void hfnet_register_socketb_atcmd(void){}
 
 void app_init(void)
 {
@@ -369,7 +369,7 @@ int USER_FUNC app_main (void)
 	
 
 	//See Wi-Fi Config tools APP for detailed usage of this thread
-	/*if(hfnet_start_assis(ASSIS_PORT)!=HF_SUCCESS)
+	if(hfnet_start_assis(ASSIS_PORT)!=HF_SUCCESS)
 	{
 		HF_Debug(DEBUG_WARN,"start assis fail\n");
 	}
@@ -385,7 +385,7 @@ int USER_FUNC app_main (void)
 	{
 		HF_Debug(DEBUG_WARN,"start socketb fail\n");
 	}
-	*/
+	
 	//Web Server
 	if(hfnet_start_httpd(HFTHREAD_PRIORITIES_MID)!=HF_SUCCESS)
 	{
