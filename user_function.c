@@ -47,7 +47,7 @@ void USER_FUNC user_function_cmd_received( int udp_flag,  char *pusrdata )
     if ( p_cmd && cJSON_IsString( p_cmd ) && strcmp( p_cmd->valuestring, "device report" ) == 0 )
     {
         cJSON *pRoot = cJSON_CreateObject( );
-        cJSON_AddStringToObject( pRoot, "name", "zTC1_1234" );
+        cJSON_AddStringToObject( pRoot, "name", deviceid );
         cJSON_AddStringToObject( pRoot, "mac", strMac );
         cJSON_AddNumberToObject( pRoot, "type", TYPE );
         cJSON_AddStringToObject( pRoot, "type_name", TYPE_NAME );

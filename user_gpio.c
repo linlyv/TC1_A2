@@ -174,16 +174,13 @@ void USER_FUNC key_short_press( void )
             else if ( key_time == 100 )
             {
                 //key_long_10s_press( );
-								
-								//u_printf("key time is 100");
-
             }
-            else if ( key_time ==180 )
-            {
-							
+            else if ( key_time ==180 ){					
 								user_function_cmd_received(1,"{\"cmd\":\"device report\"}");
-                user_led_set( 1 );
-							  //u_printf("key time is 180");
+                user_led_set( 0 );
+            }
+						else if ( key_time ==190 ){    
+							user_led_set( 1 );
             }
             else if ( key_time == 203 )
             {
@@ -195,32 +192,30 @@ void USER_FUNC key_short_press( void )
             }
         }
 				if(key_time>204){
-					key_time=0;
+					key_time=189;
 				}
 
-    
-		
-	}
+		}else{
+			if(!relay_out()){ user_led_set( 0 ); }
+		}
 }
 
 
 
 
 void USER_FUNC key_rising_irq_handler ( uint32_t arg1,uint32_t arg2 ){
-    //u_printf("user_key_timer start success,key_time=%d\n",key_time);	
 	  if(key_time<2){
 		}
     else if(key_time<20){
 			if(hfgpio_fpin_is_high( KEY )){
 				HF_Debug(DEBUG_WARN,"short press\n");	
 				key_short_press();
-				//hfconfig_file_data_read(20,config_data,100);
+				//hfconfig_file_data_read(2,config_data,100);
 
 			}
 		}	
 		else if(key_time<80){
 			HF_Debug(DEBUG_WARN,"4s press\n");	
-			//u_printf("time=%s", hfsys_get_time() );
 		}
 		else if(key_time<150){
 			HF_Debug(DEBUG_WARN,"5s press\n");	
@@ -266,7 +261,7 @@ void USER_FUNC key_init( )
     HF_Debug(DEBUG_WARN,"configure KEY fail\n");		
 		return;
 	}else
-	 HF_Debug(DEBUG_WARN,"configure KEY success\n");		
+	 HF_Debug(DEBUG_WARN,"configure KEY process success\n");		
 	
 	hftimer_start(user_key_timer);
 	appRestoreDefault();
@@ -276,8 +271,9 @@ void USER_FUNC key_init( )
 void USER_FUNC appRestoreDefault(  void  )
 {
     int i, j;
-
+		char nstr[]="TC1";
     //u_printf("mqtt-port=%d",u_config.mqtt_port);
+		strcpy(deviceid,nstr);
     u_config.mqtt_ip[0] = 0;
     u_config.mqtt_port = 0;
     u_config.mqtt_user[0] = 0;
@@ -288,14 +284,14 @@ void USER_FUNC appRestoreDefault(  void  )
         u_config.plug[i].on = 0;
 
         //???? ??1-6
-			  u_config.plug[i].name[0] = 0xB2;
-        u_config.plug[i].name[1] = 0xE5;
-        u_config.plug[i].name[2] = 0xBF;
-        u_config.plug[i].name[3] = 0xDA;
-       // u_config.plug[i].name[4] = 0x8f;
-       // u_config.plug[i].name[5] = 0xa3;
-        u_config.plug[i].name[4] = i + '1';
-        u_config.plug[i].name[5] = 0;
+			  u_config.plug[i].name[0] = 0xe6;
+        u_config.plug[i].name[1] = 0x8f;
+        u_config.plug[i].name[2] = 0x92;
+        u_config.plug[i].name[3] = 0xe5;
+        u_config.plug[i].name[4] = 0x8f;
+        u_config.plug[i].name[5] = 0xa3;
+        u_config.plug[i].name[6] = i + '1';
+        u_config.plug[i].name[7] = 0;
 
        
 
@@ -311,7 +307,7 @@ void USER_FUNC appRestoreDefault(  void  )
     }
 //    mico_system_context_update( sys_config );
     user_defaultconfig=u_config;
-		HF_Debug(DEBUG_WARN,"app config success...\n");	
+		HF_Debug(DEBUG_WARN,"userdata config success...\n");	
 }
 
 void printTask(){

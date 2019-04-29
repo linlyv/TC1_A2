@@ -100,7 +100,7 @@ const int hf_gpio_fid_to_pid_map_table[HFM_MAX_FUNC_CODE]=
 
 
 
-char strMac[16] = { 0 };
+char strMac[13] = { 0 };
 char strIp[32];
 char deviceid[32];
 uint32_t power;
@@ -244,7 +244,7 @@ static int sys_event_callback( uint32_t event_id,void * param)
 	}
 	return 0;
 }
-
+/*
 static int USER_FUNC socketa_recv_callback(uint32_t event,char *data,uint32_t len,uint32_t buf_len)
 {
 	if(event==HFNET_SOCKETA_DATA_READY)
@@ -273,8 +273,8 @@ static int USER_FUNC socketb_recv_callback(uint32_t event,char *data,uint32_t le
 	}
 			
 	return len;
-}
-
+}*/
+/*
 static int USER_FUNC uart_recv_callback(uint32_t event,char *data,uint32_t len,uint32_t buf_len)
 {
 	HF_Debug(DEBUG_LEVEL_LOW,"[%d]uart recv %d bytes data %d\n",event,len,buf_len);
@@ -283,7 +283,7 @@ static int USER_FUNC uart_recv_callback(uint32_t event,char *data,uint32_t len,u
 	
 	return len;
 }
-
+*/
 static void show_reset_reason(void)
 {
 	uint32_t reset_reason=0;
@@ -332,8 +332,8 @@ static void show_reset_reason(void)
 ///关闭WPS,减少35k固件大小
 int hfwifi_wps_main(void){return 0;}
 
-//void hfnet_register_socketa_atcmd(void){}
-//void hfnet_register_socketb_atcmd(void){}
+void hfnet_register_socketa_atcmd(void){}
+void hfnet_register_socketb_atcmd(void){}
 
 void app_init(void)
 {
@@ -361,7 +361,7 @@ int USER_FUNC app_main (void)
 
 	while(hfsmtlk_is_start())
 		msleep(100);
-	
+	/*
 	if(hfnet_start_uart(HFTHREAD_PRIORITIES_LOW,(hfnet_callback_t)uart_recv_callback)!=HF_SUCCESS)
 	{
 		HF_Debug(DEBUG_WARN,"start uart fail!\n");
@@ -384,7 +384,7 @@ int USER_FUNC app_main (void)
 	if(hfnet_start_socketb(HFTHREAD_PRIORITIES_LOW,(hfnet_callback_t)socketb_recv_callback)!=HF_SUCCESS)
 	{
 		HF_Debug(DEBUG_WARN,"start socketb fail\n");
-	}
+	}*/
 	
 	//Web Server
 	if(hfnet_start_httpd(HFTHREAD_PRIORITIES_MID)!=HF_SUCCESS)

@@ -50,8 +50,7 @@ USER_FUNC void rtc_thread_func(void * arg){
 			}else{
 					ntptime_succeed=0;
 			}
-		
-		 
+
 			for ( i = 0; i < PLUG_NUM; i++ )
 			{
 					for ( j = 0; j < PLUG_TIME_TASK_NUM; j++ )
@@ -67,7 +66,7 @@ USER_FUNC void rtc_thread_func(void * arg){
 									{
 											if ( u_config.plug[i].on != u_config.plug[i].task[j].action )
 											{
-												u_printf("u_config.plug[i].task[j].action:%d\n",u_config.plug[i].task[j].action);
+												//u_printf("u_config.plug[i].task[j].action:%d\n",u_config.plug[i].task[j].action);
 													user_relay_set( i, u_config.plug[i].task[j].action );
 													update_user_config_flag = 1;
 												//u_printf("u_config.plug[i].task[j].action=%d\n",u_config.plug[i].task[j].action);
@@ -79,17 +78,14 @@ USER_FUNC void rtc_thread_func(void * arg){
 													u_config.plug[i].task[j].on = 0;
 													update_user_config_flag = 1;
 											}
-											u_printf("repeat:%d\n",repeat);
+										//	u_printf("repeat:%d\n",repeat);
 									}
 							}
 					}
 			}
 
-
 			if ( update_user_config_flag == 1 )
 			{
-					
-
 					update_user_config_flag = 0;
 
 					cJSON *json_send = cJSON_CreateObject( );
@@ -126,18 +122,14 @@ USER_FUNC void rtc_thread_func(void * arg){
 					}
 
 					char *json_str = cJSON_Print( json_send );
-					u_printf("****rtc thread ********>>>  json_send:\n %s\n",json_str);
+					u_printf("****rtc thread ********>>>  json_send:\n %d bytes\n",sizeof(json_str));
 					user_send( false, json_str );    //·¢ËÍÊý¾Ý, 
 
 					hfmem_free( json_str );
 					json_str=NULL;
 					cJSON_Delete( json_send );
-//            os_log("cJSON_Delete");
 			}
-	
 		
-			//u_printf("rtc_thread_func..ntptime_succeed=%d\n",ntptime_succeed);
-		 // u_printf("rtc_thread_func..%d",t_t->tm_min%5==0);
 	}
 	u_printf("rtc_thread_func exit..");
 }
@@ -156,9 +148,8 @@ USER_FUNC void rtc_thread_func(void * arg){
   {
     u_printf("create timer 2 fail\n");
   }
-	u_printf("rtc_init done.");
+	u_printf("rtc_init done.\n");
 	hfthread_create(rtc_thread_func,"rtccontrol",1024,(void*)1,1,NULL,NULL);
-
 	hftimer_start(user_rtc_timer);
 }
 

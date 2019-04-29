@@ -57,7 +57,7 @@ typedef struct
 
 ///extern char rtc_init;
 
-extern char strMac[16];
+extern char strMac[13];
 extern char strIp[32];
 extern uint32_t power;
 extern char deviceid[32];

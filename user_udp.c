@@ -68,7 +68,7 @@ void USER_FUNC udp_thread( void *arg )
 					maxfd=msg_send_event_fd;*/
 				timeout.tv_sec= 0.2;
 				timeout.tv_usec= 0;
-				//ret = select(maxfd+1, &rset, NULL, NULL, &timeout);
+
 				
         FD_ZERO( &readfds );
 				if(msg_send_event_fd>=0)
@@ -82,7 +82,6 @@ void USER_FUNC udp_thread( void *arg )
         if ( FD_ISSET( udp_fd, &readfds ) )
         {
             len = recvfrom( udp_fd, buf, 1024, 0, (struct sockaddr *) &addr, &addrLen );
-            //require_action( len >= 0, exit, err = kConnectionErr );
 
             strcpy( ip_address, inet_ntoa( addr.sin_addr ) );
             if(len<1024) buf[len]=0;
