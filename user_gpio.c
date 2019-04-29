@@ -169,13 +169,13 @@ void USER_FUNC key_short_press( void )
             {
               key_long_press( );
 							printtime();//´òÓ¡Ê±¼ä
-							u_printf("hfuflash_size:%d\n",hfuflash_size());
+							//u_printf("hfuflash_size:%d\n",hfuflash_size());
             }
             else if ( key_time == 100 )
             {
                 //key_long_10s_press( );
 								
-								u_printf("key time is 100");
+								//u_printf("key time is 100");
 
             }
             else if ( key_time ==180 )
@@ -183,14 +183,14 @@ void USER_FUNC key_short_press( void )
 							
 								user_function_cmd_received(1,"{\"cmd\":\"device report\"}");
                 user_led_set( 1 );
-							  u_printf("key time is 180");
+							  //u_printf("key time is 180");
             }
             else if ( key_time == 203 )
             {
                 user_led_set( 0 );	
-							//u_printf("hfsmtlk_start > >>");
+							u_printf("SmartLink_start > >>");
 							//user_function_cmd_received(1,"{\"cmd\":\"device report\"}");
-							  //hfsmtlk_start();
+							  hfsmtlk_start();
                 //key_time = 201;
             }
         }
