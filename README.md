@@ -20,6 +20,7 @@
 看到有打印出Bootloader的信息，接着按照输入‘S’，再输入‘Y’,  点击菜单栏的"发送"(Transfer)，选择“发送Xmodem”，然后就选择XXX_gcc.bin文件，打开。
 
 等待传输完成即可。
+
 <img src="https://github.com/linlyv/TC1_A2/blob/master/doc/step1.png" width="540">
 <img src="https://github.com/linlyv/TC1_A2/blob/master/doc/step2.png" width="540">
 <img src="https://github.com/linlyv/TC1_A2/blob/master/doc/step3.png" width="540">
