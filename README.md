@@ -39,6 +39,14 @@
 ### 4.app控制
 使用A1版的APP，发现局域网设备的方式添加设备[SmartControl_Android_MQTT](https://github.com/a2633063/SmartControl_Android_MQTT)。
 
+### 5.固件升级
+
+串口升级和web网页升级
+
+只需要访问模块的ip地址+iweb.html,就可以打开升级页面，选择第一项Upgrade application，浏览文件选择“XXX_upgrade.bin”文件，点击Upload
+即可，传输成功会返回：Update successful !
+
+
 > 没有意外的应该是可以控制的，实时控制是可以的，但由于是UDP连接，有时APP控制不是很顺畅。
 > 还不能保存app设置的参数，像定时任务，插口名称都会掉电后丢失。
 > 我现在没有测试的设备了，因为一次OTA升级过程中卡死了，导致模块不能进BootLoader了！！！，暂时就只有局域网的APP控制了，可能问题也比较多。
