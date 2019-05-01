@@ -32,40 +32,36 @@ USER_FUNC void user_udp_init( void )
 void USER_FUNC udp_thread( void *arg )
 {
 		struct timeval timeout;
-    struct sockaddr_in addr;
-    fd_set readfds;   //rset
+		struct sockaddr_in addr;
+		fd_set readfds;   //rset
 		uint8_t err,ret;
-    socklen_t addrLen = sizeof(addr);
-    int udp_fd=-1 , len,maxfd,tmp;
-    p_udp_send_msg_t p_send_msg = NULL;
-    int msg_send_event_fd=-1 ;
-    char ip_address[16];
-    char buf[512];
+		socklen_t addrLen = sizeof(addr);
+		int udp_fd=-1 , len,maxfd,tmp;
+		p_udp_send_msg_t p_send_msg = NULL;
+		int msg_send_event_fd=-1 ;
+		char ip_address[16];
+		char buf[512];
 
     /*Establish a UDP port to receive any data sent to this port*/
 		memset((char*)&addr,0,sizeof(addr));
-    udp_fd = socket( AF_INET, SOCK_DGRAM, IPPROTO_UDP );
-    if(udp_fd<0)
+		udp_fd = socket( AF_INET, SOCK_DGRAM, IPPROTO_UDP );
+		if(udp_fd<0)
 		{
-			u_printf("create udp socket fail\n");
+				u_printf("create udp socket fail\n");
 		}
-		
-    addr.sin_family = AF_INET;
-    addr.sin_addr.s_addr = INADDR_ANY;
-    addr.sin_port = htons( LOCAL_UDP_PORT );
-    err = bind( udp_fd, (struct sockaddr *) &addr, sizeof(addr) );
+		addr.sin_family = AF_INET;
+		addr.sin_addr.s_addr = INADDR_ANY;
+		addr.sin_port = htons( LOCAL_UDP_PORT );
+		err = bind( udp_fd, (struct sockaddr *) &addr, sizeof(addr) );
 		tmp=60;
-    setsockopt(udp_fd, SOL_SOCKET,SO_BROADCAST,&tmp,sizeof(tmp));
+		setsockopt(udp_fd, SOL_SOCKET,SO_BROADCAST,&tmp,sizeof(tmp));
     //require_noerr( err, exit );
-     maxfd=udp_fd;
-		 
-    u_printf("[udp_thread]Open local UDP port %d\n", addr.sin_port);
+		maxfd=udp_fd;
+		u_printf("[udp_thread]Open local UDP port %d\n", addr.sin_port);
 		void *msg;
-    while ( 1 )
-    {
-			  /*maxfd = udp_fd;
-				if(maxfd<msg_send_event_fd)
-					maxfd=msg_send_event_fd;*/
+		while ( 1 )
+		{
+
 				timeout.tv_sec= 0.2;
 				timeout.tv_usec= 0;
 
@@ -81,36 +77,35 @@ void USER_FUNC udp_thread( void *arg )
         /*Read data from udp and send data back */
         if ( FD_ISSET( udp_fd, &readfds ) )
         {
-            len = recvfrom( udp_fd, buf, 1024, 0, (struct sockaddr *) &addr, &addrLen );
+					len = recvfrom( udp_fd, buf, 1024, 0, (struct sockaddr *) &addr, &addrLen );
 
-            strcpy( ip_address, inet_ntoa( addr.sin_addr ) );
-            if(len<1024) buf[len]=0;
-            u_printf( "udp recv from %s:%d, len:%d \n", ip_address,addr.sin_port, len );
-            user_function_cmd_received(1,buf);
-           sendto( udp_fd, buf, len, 0, (struct sockaddr *) &addr, sizeof(struct sockaddr_in) );
+					strcpy( ip_address, inet_ntoa( addr.sin_addr ) );
+					if(len<1024) buf[len]=0;
+							u_printf( "udp recv from %s:%d, len:%d \n", ip_address,addr.sin_port, len );
+							user_function_cmd_received(1,buf);
+							sendto( udp_fd, buf, len, 0, (struct sockaddr *) &addr, sizeof(struct sockaddr_in) );
         }
 
         /* recv msg from user worker thread to be sent to server */
         //if ( FD_ISSET( msg_send_event_fd, &readfds ) ){
 				
-						if(hfmsgq_recv(udp_msgq,&msg,10,0)==HF_SUCCESS)
-						{
+					if(hfmsgq_recv(udp_msgq,&msg,10,0)==HF_SUCCESS)
+					{
 							u_printf("recv msg %p\n",msg);
 							p_send_msg=msg;//get data from udp_msgq 
-							
 							udp_msg_send( udp_fd, p_send_msg->data, p_send_msg->datalen );
 							//u_printf("udp_fd=%d\n",udp_fd);
-							 hfmem_free( p_send_msg );
+							hfmem_free( p_send_msg );
 							p_send_msg = NULL;
 							
-						}else{
+					}else{
 							//u_printf("recv msg fail.. %p\n",msg);
 							continue;
-						}
+					}
 				//}
 				if(ret<=0){
 					//u_printf("ret=%d,udp_fd=%d\n",ret,udp_fd);
-					continue;
+						continue;
 				}
           
         
@@ -132,39 +127,38 @@ static int  udp_msg_send( int socket, const unsigned char* msg, uint32_t msg_len
 	  //sockfd=socket(AF_INET,SOCK_DGRAM,0);
 	  
 		
-     addr.sin_family = AF_INET;
-    addr.sin_addr.s_addr = INADDR_ANY;
-    addr.sin_port = htons( LOCAL_UDP_PORT );
-    addr.sin_family = AF_INET;
-    addr.sin_addr.s_addr = INADDR_BROADCAST;//
+		addr.sin_family = AF_INET;
+		addr.sin_addr.s_addr = INADDR_ANY;
+		addr.sin_port = htons( LOCAL_UDP_PORT );
+		addr.sin_family = AF_INET;
+		addr.sin_addr.s_addr = INADDR_BROADCAST;//
 	
-    addr.sin_port = htons( REMOTE_UDP_PORT );
+		addr.sin_port = htons( REMOTE_UDP_PORT );
     /*the receiver should bind at port=20000*/
-    ret=sendto( socket, msg, msg_len, 0, (struct sockaddr *) &addr, sizeof(addr) );
+		ret=sendto( socket, msg, msg_len, 0, (struct sockaddr *) &addr, sizeof(addr) );
 		u_printf("[udp_msg_send]  len=%d\n",ret);
 	
 	  //u_printf("remote port:%d\n",REMOTE_UDP_PORT);
 		//u_printf("sent:%s , socket fd:%d,addr:%s:%d\n",msg,socket,inet_ntoa( addr.sin_addr ),addr.sin_port);
-    return 1;
+		return 1;
 }
 
 /* Application collect data and seng them to udp send queue */
 void user_udp_send( char *arg )
 {
     
-    p_udp_send_msg_t p_send_msg = NULL;
+		p_udp_send_msg_t p_send_msg = NULL;
 
     /* Push the latest data into send queue*/
-    p_send_msg = calloc( 1, sizeof(udp_send_msg_t) );
-   
-
-    p_send_msg->datalen = strlen( arg );
-    memcpy( p_send_msg->data, arg, p_send_msg->datalen );
-    u_printf( "[user_udp_send]p_send_msg->data=%s\n", p_send_msg->data );
-	  udp_msgq=hfmsgq_create(2,256);
+		p_send_msg = calloc( 1, sizeof(udp_send_msg_t) );
+  
+		p_send_msg->datalen = strlen( arg );
+		memcpy( p_send_msg->data, arg, p_send_msg->datalen );
+		u_printf( "[user_udp_send]p_send_msg->data=%s\n", p_send_msg->data );
+		udp_msgq=hfmsgq_create(2,256);
 		if(udp_msgq==NULL)
 		{
-			u_printf("create msg_queue fail\n");
+				u_printf("create msg_queue fail\n");
 		}
 		if(hfmsgq_send(udp_msgq,&p_send_msg,10,0)==HF_SUCCESS)
 		{

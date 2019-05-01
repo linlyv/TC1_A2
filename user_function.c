@@ -101,9 +101,9 @@ void USER_FUNC user_function_cmd_received( int udp_flag,  char *pusrdata )
             if ( p_setting_name && cJSON_IsString( p_setting_name ) )
             {
                 update_user_config_flag = true;
-								u_printf("u_config.plug.name:%s\n",u_config.plug[1].name);
+								//u_printf("u_config.plug.name:%s\n",u_config.plug[1].name);
 								sprintf( deviceid, p_setting_name->valuestring );
-								u_printf("p_setting_name->valuestring:%s\n",deviceid);
+								//u_printf("p_setting_name->valuestring:%s\n",deviceid);
                 //
             }
 
@@ -128,7 +128,7 @@ void USER_FUNC user_function_cmd_received( int udp_flag,  char *pusrdata )
             if ( p_mqtt_user && cJSON_IsString( p_mqtt_user ) )
             {
                 update_user_config_flag = true;
-							sprintf( u_config.mqtt_user, p_mqtt_user->valuestring );
+								sprintf( u_config.mqtt_user, p_mqtt_user->valuestring );
             }
 
             //设置mqtt password
@@ -136,7 +136,7 @@ void USER_FUNC user_function_cmd_received( int udp_flag,  char *pusrdata )
             if ( p_mqtt_password && cJSON_IsString( p_mqtt_password ) )
             {
                 update_user_config_flag = true;
-							sprintf( u_config.mqtt_password, p_mqtt_password->valuestring );
+								sprintf( u_config.mqtt_password, p_mqtt_password->valuestring );
             }
 
 
@@ -171,7 +171,7 @@ void USER_FUNC user_function_cmd_received( int udp_flag,  char *pusrdata )
         if ( return_flag == true )
         {
             char *json_str = cJSON_Print( json_send );
-            u_printf( "[user_function_cmd_received] pRoot: %s\r\n", json_str );
+            //u_printf( "[user_function_cmd_received] pRoot: %s\r\n", json_str );
             user_send( udp_flag, json_str ); //发送数据
             hfmem_free( (void *) json_str );
         }
@@ -183,7 +183,7 @@ void USER_FUNC user_function_cmd_received( int udp_flag,  char *pusrdata )
         //mico_system_context_update( sys_config );
         update_user_config_flag = false;
     }
-
+    
     cJSON_Delete( pJsonRoot );
 
 }

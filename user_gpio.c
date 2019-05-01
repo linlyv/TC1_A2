@@ -12,7 +12,7 @@
 #define TIMER1_ID		(1)   //定时器id
 
 
-char ntpserver[]="pool.ntp.org";
+char ntpserver[]="ntp1.aliyun.com";
 
 uint8_t key_time = 0;
 #define BUTTON_LONG_PRESS_TIME    10     //
@@ -154,20 +154,19 @@ void USER_FUNC key_short_press( void )
     key_continue = tmp;
 	 //HF_Debug(DEBUG_WARN,"key timeout,tmp=%d,,key_continue=%d,,key_time=%d\n",tmp,key_continue,key_time);	
 
-	  if(!hfgpio_fpin_is_high( KEY )){
-    
+	  if(!hfgpio_fpin_is_high( KEY )){   
         //any button pressed
-        key_time++;
+				key_time++;
 			  //if(key_time%5==0)u_printf("button long pressed:%d",key_time);
         if ( key_time < 10 ){
-          key_last = key_continue;
+						key_last = key_continue;
 					//u_printf("button short pressed:%d,key_last=%d",key_time,key_last);
 				}
         else
         {
             if ( key_time == 50 )
             {
-              key_long_press( );
+							key_long_press( );
 							printtime();//打印时间
 							//u_printf("hfuflash_size:%d\n",hfuflash_size());
             }
@@ -177,22 +176,22 @@ void USER_FUNC key_short_press( void )
             }
             else if ( key_time ==180 ){					
 								user_function_cmd_received(1,"{\"cmd\":\"device report\"}");
-                user_led_set( 0 );
+								user_led_set( 0 );
             }
 						else if ( key_time ==190 ){    
-							user_led_set( 1 );
+								user_led_set( 1 );
             }
-            else if ( key_time == 203 )
+						else if ( key_time == 203 )
             {
-                user_led_set( 0 );	
-							u_printf("SmartLink_start > >>");
-							//user_function_cmd_received(1,"{\"cmd\":\"device report\"}");
-							  hfsmtlk_start();
+								user_led_set( 0 );	
+								//u_printf("SmartLink_start > >>");
+								user_function_cmd_received(1,"{\"cmd\":\"device report\"}");
+								hfsmtlk_start();
                 //key_time = 201;
             }
         }
 				if(key_time>204){
-					key_time=189;
+						key_time=189;
 				}
 
 		}else{
@@ -204,24 +203,23 @@ void USER_FUNC key_short_press( void )
 
 
 void USER_FUNC key_rising_irq_handler ( uint32_t arg1,uint32_t arg2 ){
-	  if(key_time<2){
+		if(key_time<2){
 		}
-    else if(key_time<20){
+		else if(key_time<20){
 			if(hfgpio_fpin_is_high( KEY )){
-				HF_Debug(DEBUG_WARN,"short press\n");	
-				key_short_press();
-				//hfconfig_file_data_read(2,config_data,100);
+					HF_Debug(DEBUG_WARN,"short press\n");	
+					key_short_press();
+					//hfconfig_file_data_read(2,config_data,100);
 
 			}
-		}	
-		else if(key_time<80){
-			HF_Debug(DEBUG_WARN,"4s press\n");	
+		}	else if(key_time<80){
+				HF_Debug(DEBUG_WARN,"4s press\n");	
 		}
 		else if(key_time<150){
-			HF_Debug(DEBUG_WARN,"5s press\n");	
+				HF_Debug(DEBUG_WARN,"5s press\n");	
 		}
 		else if (key_time<204){
-			HF_Debug(DEBUG_WARN,"10s press\n");	
+				HF_Debug(DEBUG_WARN,"10s press\n");	
 		}
 
 		key_time=0;

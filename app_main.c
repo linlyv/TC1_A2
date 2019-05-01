@@ -410,11 +410,10 @@ int USER_FUNC app_main (void)
 	
 	hfgpio_fset_out_high(LED);
 	key_init();
-  rtctime_init();
+	rtctime_init();
 	user_udp_init( );
 	hfnet_get_mac_address(strMac);
-  u_printf("local mac:%s\n", strMac);  
-	
+	u_printf("local mac:%s\n", strMac);  
 	hfgpio_fset_out_low(LED);
 	while(!hfnet_wifi_is_active())
 	{
