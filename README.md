@@ -48,6 +48,8 @@
 web网页升级:只需要访问模块的ip地址+iweb.html(例如：http://192.168.123.184/iweb.html),就可以打开升级页面，选择第一项Upgrade application，浏览文件选择“XXX_upgrade.bin”文件，点击Upload
 即可，传输成功会返回：Update successful !
 
+<img src="https://github.com/linlyv/TC1_A2/blob/master/doc/webup.jpg" width="540">
+
 
 > 没有意外的应该是可以控制的，实时控制是可以的，但由于是UDP连接，有时APP控制不是很顺畅。
 > 还不能保存app设置的参数，像定时任务，插口名称都会掉电后丢失。
