@@ -30,7 +30,7 @@
 
 ### 3.配网
 
-初次使用可以通过网页去配网：手机连接连接名为HFLPT-230的AP,然后用浏览器访问10.10.100.254  这个地址，需要登录，用户名和密码都是admin.
+初次使用可以通过网页去配网：手机连接连接名为"HF-LPT230"的AP,然后用浏览器访问10.10.100.254  这个地址，需要登录，用户名和密码都是admin.
 
 在网页上输入要连接的WiFi SSID和密码,保存等待重启完成，模块就会自动连接你刚刚设置的WiFi网络。
 
@@ -43,7 +43,7 @@
 
 串口升级和web网页升级
 
-只需要访问模块的ip地址+iweb.html(例如：http://192.168.123.184/iweb.html),就可以打开升级页面，选择第一项Upgrade application，浏览文件选择“XXX_upgrade.bin”文件，点击Upload
+web网页升级:只需要访问模块的ip地址+iweb.html(例如：http://192.168.123.184/iweb.html),就可以打开升级页面，选择第一项Upgrade application，浏览文件选择“XXX_upgrade.bin”文件，点击Upload
 即可，传输成功会返回：Update successful !
 
 
