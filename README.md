@@ -34,7 +34,7 @@
 
 在网页上输入要连接的WiFi SSID和密码,保存等待重启完成，模块就会自动连接你刚刚设置的WiFi网络。
 
-后续更改网络配置可以长按按键，直到按键灯亮1秒后熄灭，松开按键，此时再按是没反应的，说明已经进入SmartLink配网模式，下载hiflying-iots-android-smartlink-demo-7.0.3.apk进行配网。
+后续更改网络配置可以长按按键，直到按键灯亮1秒后熄灭，松开按键，此时再按是没反应的，说明已经进入SmartLink配网模式，移步至release 下载hiflying-iots-android-smartlink-demo-7.0.3.apk进行配网。
 
 <img src="https://github.com/linlyv/TC1_A2/blob/master/doc/web.png" width="540">
 
