@@ -9,16 +9,16 @@
 
 
 
-#define TIMER1_ID		(1)   //¶¨Ê±Æ÷id
+#define TIMER1_ID		(1)   //å®šæ—¶å™¨id
 
 
 char ntpserver[]="ntp1.aliyun.com";
 
 uint8_t key_time = 0;
 #define BUTTON_LONG_PRESS_TIME    10     //
-int hour, min, secnod; //Ê±¼ä
+int hour, min, secnod; //æ—¶é—´
 
-int relay[]={SW1,SW2,SW3,SW4,SW5,SW6}; //¶ÔÓ¦Ã¿Â·¼ÌµçÆ÷GPIO
+int relay[]={SW1,SW2,SW3,SW4,SW5,SW6}; //å¯¹åº”æ¯è·¯ç»§ç”µå™¨GPIO
 
 static hftimer_handle_t user_key_timer=NULL;
 hfthread_mutex_t keythread_lock=NULL_MUTEX;
@@ -60,9 +60,9 @@ bool USER_FUNC relay_out( void )
 }
 
 /*user_relay_set
- * ÉèÖÃ¼ÌµçÆ÷¿ª¹Ø
- * x:±àºÅ 0-5
- * y:¿ª¹Ø 0:¹Ø 1:¿ª
+ * è®¾ç½®ç»§ç”µå™¨å¼€å…³
+ * x:ç¼–å· 0-5
+ * y:å¼€å…³ 0:å…³ 1:å¼€
  */
 void USER_FUNC user_relay_set(uint8_t x,uint8_t y )
 {
@@ -82,8 +82,8 @@ void USER_FUNC user_relay_set(uint8_t x,uint8_t y )
 }
 
 /*
- * ÉèÖÃËùÓÐ¼ÌµçÆ÷¿ª¹Ø
- * y:0:È«²¿¹Ø   1:¸ù¾Ý¼ÇÂ¼×´Ì¬¿ª¹ØËùÓÐ
+ * è®¾ç½®æ‰€æœ‰ç»§ç”µå™¨å¼€å…³
+ * y:0:å…¨éƒ¨å…³   1:æ ¹æ®è®°å½•çŠ¶æ€å¼€å…³æ‰€æœ‰
  *
  */
 void USER_FUNC user_relay_set_all( uint8_t y )
@@ -147,7 +147,7 @@ void USER_FUNC key_short_press( void )
 	
 		hour = (hfsys_get_time()/1000)/3600;
 		min = (hfsys_get_time()/1000 - hour*3600)/60;
-    //°´¼üÉ¨Ãè³ÌÐò
+    //æŒ‰é”®æ‰«æç¨‹åº
 	 
     uint8_t tmp = (0xfe | hfgpio_fpin_is_high( KEY ));
     //key_trigger = tmp & (tmp ^ key_continue);
@@ -166,36 +166,36 @@ void USER_FUNC key_short_press( void )
         {
             if ( key_time == 50 )
             {
-							key_long_press( );
-							printtime();//´òÓ¡Ê±¼ä
-							//u_printf("hfuflash_size:%d\n",hfuflash_size());
+		key_long_press( );
+		printtime();//æ‰“å°æ—¶é—´
+		//u_printf("hfuflash_size:%d\n",hfuflash_size());
             }
             else if ( key_time == 100 )
             {
                 //key_long_10s_press( );
             }
             else if ( key_time ==180 ){					
-								user_function_cmd_received(1,"{\"cmd\":\"device report\"}");
-								user_led_set( 0 );
+		user_function_cmd_received(1,"{\"cmd\":\"device report\"}");
+		user_led_set( 0 );
             }
-						else if ( key_time ==190 ){    
-								user_led_set( 1 );
+	   else if ( key_time ==190 ){    
+		user_led_set( 1 );
             }
-						else if ( key_time == 203 )
+	    else if ( key_time == 203 )
             {
-								user_led_set( 0 );	
-								//u_printf("SmartLink_start > >>");
-								user_function_cmd_received(1,"{\"cmd\":\"device report\"}");
-								hfsmtlk_start();
+		user_led_set( 0 );	
+		//u_printf("SmartLink_start > >>");
+		user_function_cmd_received(1,"{\"cmd\":\"device report\"}");
+		hfsmtlk_start();
                 //key_time = 201;
             }
         }
-				if(key_time>204){
-						key_time=189;
-				}
+	if(key_time>204){
+		key_time=189;
+	}
 
-		}else{
-			if(!relay_out()){ user_led_set( 0 ); }
+	}else{
+	if(!relay_out()){ user_led_set( 0 ); }
 		}
 }
 
@@ -203,26 +203,26 @@ void USER_FUNC key_short_press( void )
 
 
 void USER_FUNC key_rising_irq_handler ( uint32_t arg1,uint32_t arg2 ){
-		if(key_time<2){
-		}
-		else if(key_time<20){
-			if(hfgpio_fpin_is_high( KEY )){
-					HF_Debug(DEBUG_WARN,"short press\n");	
-					key_short_press();
-					//hfconfig_file_data_read(2,config_data,100);
+	if(key_time<2){
+	}
+	else if(key_time<20){
+		if(hfgpio_fpin_is_high( KEY )){
+			HF_Debug(DEBUG_WARN,"short press\n");	
+			key_short_press();
+			//hfconfig_file_data_read(2,config_data,100);
 
-			}
-		}	else if(key_time<80){
-				HF_Debug(DEBUG_WARN,"4s press\n");	
 		}
-		else if(key_time<150){
-				HF_Debug(DEBUG_WARN,"5s press\n");	
-		}
-		else if (key_time<204){
-				HF_Debug(DEBUG_WARN,"10s press\n");	
-		}
+	}	else if(key_time<80){
+			HF_Debug(DEBUG_WARN,"4s press\n");	
+	}
+	else if(key_time<150){
+			HF_Debug(DEBUG_WARN,"5s press\n");	
+	}
+	else if (key_time<204){
+			HF_Debug(DEBUG_WARN,"10s press\n");	
+	}
 
-		key_time=0;
+	key_time=0;
 }
 
 USER_FUNC void keyscan_thread_func(void * arg){
@@ -250,13 +250,13 @@ void USER_FUNC key_init( )
 		HF_Debug(DEBUG_LEVEL,"create mutex fail\n");
 		return;
 	}
-	///hfthread_create(keyscan_thread_func,"keycontrol",256,(void*)1,1,NULL,NULL);    //Ïß³Ì³õÊ¼»¯
+	///hfthread_create(keyscan_thread_func,"keycontrol",256,(void*)1,1,NULL,NULL);    //çº¿ç¨‹åˆå§‹åŒ–
 
 
 	if(hfgpio_configure_fpin_interrupt(KEY,HFPIO_IT_EDGE,key_rising_irq_handler,1)!=HF_SUCCESS)
 	{
 		u_printf("configure HFGPIO_F_USER_RELOAD fail\n");
-    HF_Debug(DEBUG_WARN,"configure KEY fail\n");		
+   		 HF_Debug(DEBUG_WARN,"configure KEY fail\n");		
 		return;
 	}else
 	 HF_Debug(DEBUG_WARN,"configure KEY process success\n");		
@@ -316,11 +316,11 @@ void printTask(){
 			u_printf("u_config.plug[i].name:%s\n",u_config.plug[i].name);
         for ( j = 0; j < 3; j++ )
         {
-					u_printf("u_config.plug[%d].task[%d].hour: %d\n",i,j,u_config.plug[i].task[j].hour);
-					u_printf("u_config.plug[%d].task[%d].minute: %d\n",i,j,u_config.plug[i].task[j].minute);
-					u_printf("u_config.plug[%d].task[%d].repeat: %d\n",i,j,u_config.plug[i].task[j].repeat);
-					u_printf("u_config.plug[%d].task[%d].on: %d\n",i,j,u_config.plug[i].task[j].on);
-					u_printf("u_config.plug[%d].task[%d].action: %d\n",i,j,u_config.plug[i].task[j].action);
+		u_printf("u_config.plug[%d].task[%d].hour: %d\n",i,j,u_config.plug[i].task[j].hour);
+		u_printf("u_config.plug[%d].task[%d].minute: %d\n",i,j,u_config.plug[i].task[j].minute);
+		u_printf("u_config.plug[%d].task[%d].repeat: %d\n",i,j,u_config.plug[i].task[j].repeat);
+		u_printf("u_config.plug[%d].task[%d].on: %d\n",i,j,u_config.plug[i].task[j].on);
+		u_printf("u_config.plug[%d].task[%d].action: %d\n",i,j,u_config.plug[i].task[j].action);
 
         }
     }
